@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
 import com.baomidou.mybatisplus.core.toolkit.Assert;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.github.jeffreyning.mybatisplus.anno.MppMultiId;
 import com.github.jeffreyning.mybatisplus.base.MppBaseMapper;
@@ -32,9 +32,9 @@ public class MppServiceImpl<M extends MppBaseMapper<T>, T> extends ServiceImpl<M
         throw new RuntimeException("not found column for "+attrName);
     }
 
-    private Map checkIdCol(Class<?> modelClass, TableInfo tableInfo){
+    private Map<String, String> checkIdCol(Class<?> modelClass, TableInfo tableInfo){
         List<TableFieldInfo> fieldList=tableInfo.getFieldList();
-        Map<String, String> idMap=new HashMap();
+        Map<String, String> idMap=new HashMap<>();
         for(TableFieldInfo fieldInfo: fieldList){
             Field field=fieldInfo.getField();
             MppMultiId mppMultiId= field.getAnnotation(MppMultiId.class);
@@ -104,14 +104,15 @@ public class MppServiceImpl<M extends MppBaseMapper<T>, T> extends ServiceImpl<M
                     updateFlag=false;
                 }
             }
+            int row;
             if (updateFlag) {
-                MapperMethod.ParamMap<T> param = new MapperMethod.ParamMap();
+                MapperMethod.ParamMap<T> param = new MapperMethod.ParamMap<>();
                 param.put("et", entity);
-                sqlSession.update(tableInfo.getSqlStatement("updateByMultiId"), param);
+                row = sqlSession.update(tableInfo.getSqlStatement("updateByMultiId"), param);
             } else {
-                sqlSession.insert(tableInfo.getSqlStatement(SqlMethod.INSERT_ONE.getMethod()), entity);
+                row = sqlSession.insert(tableInfo.getSqlStatement(SqlMethod.INSERT_ONE.getMethod()), entity);
             }
-
+            return row;
         });
     }
 
@@ -123,7 +124,7 @@ public class MppServiceImpl<M extends MppBaseMapper<T>, T> extends ServiceImpl<M
         return this.executeBatch(entityList, batchSize, (sqlSession, entity) -> {
             MapperMethod.ParamMap<T> param = new MapperMethod.ParamMap();
             param.put("et", entity);
-            sqlSession.update(sqlStatement, param);
+            return sqlSession.update(sqlStatement, param);
         });
     }
 }

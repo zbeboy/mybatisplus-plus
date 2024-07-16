@@ -1,21 +1,21 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.github.jeffreyning</groupId>
+  <groupId>io.github.zbeboy</groupId>
   <artifactId>mybatisplus-plus</artifactId>
-  <version>1.7.5-RELEASE</version>
+  <version>1.7.6-RELEASE</version>
   <dependencies>
 	<dependency>
 		<groupId>com.baomidou</groupId>
 		<artifactId>mybatis-plus-boot-starter</artifactId>
-		<version>3.5.7</version>
+		<version>3.5.17</version>
 		<scope>compile</scope>
 		<optional>true</optional>
 	</dependency>
 
   </dependencies>
-	<name>com.github.jeffreyning:mybatisplus-plus</name>
+	<name>io.github.zbeboy:mybatisplus-plus</name>
 	<description>mybatisplus-plus</description>
-	<url>https://github.com/jeffreyning/mybatisplus-plus</url>
+	<url>https://github.com/zbeboy/mybatisplus-plus</url>
 
 	<licenses>
 		<license>
@@ -25,16 +25,16 @@
 	</licenses>
 	<developers>
 		<developer>
-			<name>ninghao</name>
-			<email>jeffreyning@aliyun.com</email>
-			<organization>jeffreyningsoftware</organization>
-			<organizationUrl>jeffreyningsoftware.com</organizationUrl>
+			<name>zbeboy</name>
+			<email>zbeboy@qq.com</email>
+			<organization>zbeboysoftware</organization>
+			<organizationUrl>zbeboysoftware.com</organizationUrl>
 		</developer>
 	</developers>
 	<scm>
-		<connection>scm:git:git@github.com:jeffreyning/mybatisplus-plus.git</connection>
-		<developerConnection>scm:git:git@github.com:jeffreyning/mybatisplus-plus.git</developerConnection>
-		<url>git@github.com:jeffreyning/mybatisplus-plus.git</url>
+		<connection>scm:git:git@github.com:zbeboy/mybatisplus-plus.git</connection>
+		<developerConnection>scm:git:git@github.com:zbeboy/mybatisplus-plus.git</developerConnection>
+		<url>git@github.com:zbeboy/mybatisplus-plus.git</url>
 	</scm>
 	<build>
 		<plugins>
@@ -47,7 +47,6 @@
 					<target>8</target>
 					<encoding>utf-8</encoding>
 					<compilerArguments>
-
 						<extdirs>${project.basedir}/lib</extdirs>
 					</compilerArguments>
 				</configuration>
@@ -56,6 +55,13 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-gpg-plugin</artifactId>
+                <version>3.2.7</version>
+                <configuration>
+                    <gpgArguments>
+                        <arg>--pinentry-mode</arg>
+                        <arg>loopback</arg>
+                    </gpgArguments>
+                </configuration>
 				<executions>
 					<execution>
 						<id>sign-artifacts</id>
@@ -67,14 +73,26 @@
 				</executions>
 			</plugin>
 
-			<plugin>
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.7.0</version> <!-- 建议检查最新版本 -->
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>mybatisplus-plus</publishingServerId>
+                    <autoPublish>false</autoPublish> <!-- 手动发布 -->
+                    <waitUntil>uploaded</waitUntil> <!-- 等待上传完成 -->
+                </configuration>
+            </plugin>
+
+			<!--<plugin>
 				<groupId>org.sonatype.plugins</groupId>
 				<artifactId>nexus-staging-maven-plugin</artifactId>
 				<version>1.6</version>
 				<extensions>true</extensions>
 
 				<configuration>
-					<serverId>ossrh</serverId>
+					<serverId>mybatisplus-plus</serverId>
 					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
 					<autoReleaseAfterClose>false</autoReleaseAfterClose>
 					<sslAllowAll>true</sslAllowAll>
@@ -82,7 +100,7 @@
 					<stagingProgressTimeoutMinutes>20</stagingProgressTimeoutMinutes>
 					<detectBuildFailures>true</detectBuildFailures>
 				</configuration>
-			</plugin>
+			</plugin>-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
@@ -111,7 +129,7 @@
 			</plugin>
 		</plugins>
 	</build>
-	<distributionManagement>
+	<!--<distributionManagement>
 		<snapshotRepository>
 			<id>ossrh</id>
 			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
@@ -120,5 +138,5 @@
 			<id>ossrh</id>
 			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
 		</repository>
-	</distributionManagement>
+	</distributionManagement>-->
 </project>

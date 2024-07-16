@@ -1,7 +1,8 @@
 package com.github.jeffreyning.mybatisplus.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
+
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
+import com.baomidou.mybatisplus.spring.service.IService;
 import com.github.jeffreyning.mybatisplus.base.MppBaseMapper;
 import org.springframework.transaction.annotation.Transactional;
 
